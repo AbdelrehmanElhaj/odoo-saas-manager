@@ -1,0 +1,6 @@
+package com.khartoum.saas.model;
+
+public enum TenantStatus {
+    REQUESTED, DNS_CREATING, K8S_CREATING, CERT_PENDING,
+    DB_INITIALIZING, ACTIVE, SUSPENDED, DELETING, DELETED, FAILED
+}

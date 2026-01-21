@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: saas-manager
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: saas-manager
+  namespace: saas-manager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saas-manager
+  namespace: saas-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saas-manager
+  template:
+    metadata:
+      labels:
+        app: saas-manager
+    spec:
+      serviceAccountName: saas-manager
+      containers:
+      - name: saas-manager
+        image: odoo-saas-manager:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: "postgres-0"
+        - name: DB_NAME
+          value: "saas_manager"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_PASSWORD
+          value: "CHANGE_ME"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: saas-manager
+  namespace: saas-manager
+spec:
+  selector:
+    app: saas-manager
+  ports:
+  - port: 80
+    targetPort: 8080

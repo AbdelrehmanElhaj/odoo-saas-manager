@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: odoo-saas-manager
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:saas_manager}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+server:
+  port: 8080
+
+kubernetes:
+  namespace: odoo
+  config:
+    in-cluster: true
+
+aws:
+  route53:
+    hosted-zone-id: ${ROUTE53_ZONE_ID}
+
+odoo:
+  base-domain: 42khartoum.com
+  image: odoo:17.0
+  postgres-host: postgres-0.postgres
+  postgres-port: 5432
